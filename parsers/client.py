@@ -6,7 +6,7 @@ import requests
 import shutil
 import time
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("wb")
 
 HEADER = ("market", "item_name", "img_id", "price", "url")
@@ -29,29 +29,30 @@ class Client:
         res.raise_for_status()
         return res.text
 
-    def save_image(self, link):
-        filename = self.img_folder + link.split("/")[-1]
-        logger.debug(filename)
-        logger.debug(link)
+    def save_image(self, link, filename):
         r = requests.get(link, stream=True)
         if r.status_code == 200:
             r.raw.decode_content = True
 
             if os.path.exists(filename):
+                logger.debug(filename)
                 filename = (
-                    "." + filename.split(".")[1] + "_{}.jpg".format(int(time.time()))
+                    "."
+                    + filename.split(".")[1]
+                    + "_{0}.{1}".format(int(time.time()), filename.split(".")[-1])
                 )
+                logger.debug(filename)
             with open(filename, "wb") as f:
                 shutil.copyfileobj(r.raw, f)
             logger.debug("Image dowloaded")
-            return "".join(filename.split("/")[-1])[:-4]
+            return filename
         else:
             logger.debug("Image Couldn't be retreived")
             return
 
     def save_results(self):
         file_name = "".join(self.url.split(".")[1:])
-        file_name = re.sub(r"[^a-zA-Z0-9]", "", file_name) + ".csv"
+        file_name = "./data/" + re.sub(r"[^a-zA-Z0-9]", "", file_name) + ".csv"
 
         with open(file_name, "w") as f:
             writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
