@@ -2,6 +2,7 @@ import logging
 
 from parsers.citilink_client import CitilinkClient
 from parsers.eldorado_client import EldoradoClient
+from parsers.sbermegamarket_client import SberMegaMarketClient
 from parsers.technopark_client import TechnoparkClient, logger
 
 if __name__ == "__main__":
@@ -23,10 +24,18 @@ if __name__ == "__main__":
     #     parser.run()
 
     
-    for page in range(1, 12):
+    # for page in range(1, 12):
+    #     logger.info(f"PAGE {page}")
+    #     url = f"https://www.citilink.ru/catalog/smartfony/?p={page}"
+    #     parser = CitilinkClient(
+    #         market="Ситилинк", url=url, img_folder="./Ситилинк_телефоны/"
+    #     )
+    #     parser.run()
+
+    for page in range(1, 20):
         logger.info(f"PAGE {page}")
-        url = f"https://www.citilink.ru/catalog/smartfony/?p={page}"
-        parser = CitilinkClient(
-            market="Ситилинк", url=url, img_folder="./Ситилинк_телефоны/"
+        url = f"https://sbermegamarket.ru/catalog/smartfony/page-{page}/"
+        parser = SberMegaMarketClient(
+            market="СберМегаМаркет", url=url, img_folder="./СберМегаМаркет_телефоны/"
         )
         parser.run()

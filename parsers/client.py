@@ -45,7 +45,7 @@ class Client:
             with open(filename, "wb") as f:
                 shutil.copyfileobj(r.raw, f)
             logger.debug("Image dowloaded")
-            return filename
+            return filename.split("/")[-1].split(".")[0]
         else:
             logger.debug("Image Couldn't be retreived")
             return
