@@ -35,13 +35,13 @@ class Client:
             r.raw.decode_content = True
 
             if os.path.exists(filename):
-                logger.debug(filename)
+                # logger.debug(filename)
                 filename = (
                     "."
                     + filename.split(".")[1]
                     + "_{0}.{1}".format(int(time.time()), filename.split(".")[-1])
                 )
-                logger.debug(filename)
+                # logger.debug(filename)
             with open(filename, "wb") as f:
                 shutil.copyfileobj(r.raw, f)
             logger.debug("Image dowloaded")
